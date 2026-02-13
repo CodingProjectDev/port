@@ -2,9 +2,11 @@
 // CV DOWNLOAD - Generate and download professional PDF CV from page content
 // ============================================
 
-const downloadCVBtn = document.querySelector('.btn.download-cv');
-
-downloadCVBtn.onclick = async (e) => {
+// Use event delegation to handle both desktop and mobile buttons
+document.addEventListener('click', async function(e) {
+     const downloadCVBtn = e.target.closest('.download-cv');
+     if (!downloadCVBtn) return;
+     
      e.preventDefault();
      
      // Show loading state
@@ -23,17 +25,21 @@ downloadCVBtn.onclick = async (e) => {
           generatePDFCV();
           
           // Show success notification
-          showToast('CV downloaded successfully!', 'success');
+          if (typeof showToast === 'function') {
+               showToast('CV downloaded successfully!', 'success');
+          }
      } catch (error) {
           console.error('Error generating PDF:', error);
-          showToast('Failed to generate PDF. Please try again.', 'error');
+          if (typeof showToast === 'function') {
+               showToast('Failed to generate PDF. Please try again.', 'error');
+          }
      } finally {
           // Reset button state
           downloadCVBtn.textContent = originalText;
           downloadCVBtn.style.opacity = '1';
           downloadCVBtn.style.pointerEvents = 'auto';
      }
-}
+});
 
 // Load jsPDF library dynamically
 function loadJsPDF() {
@@ -64,94 +70,94 @@ function extractPageContent() {
           services: []
      };
      
-     // Extract name and title from profile page
-     const profilePage = document.querySelector('.profile-page');
-     if (profilePage) {
-          const nameEl = profilePage.querySelector('h1');
-          const titleEl = profilePage.querySelector('h3');
-          const summaryEl = profilePage.querySelector('p');
+     // Check if we're on mobile (mobile layout will have .mobile-tab-panel)
+     const isMobile = window.innerWidth <= 768 || document.querySelector('.mobile-tab-panel');
+     
+     if (isMobile) {
+          // MOBILE EXTRACTION
           
-          content.name = nameEl ? nameEl.textContent.trim() : 'Bijay Shrestha';
-          content.title = titleEl ? titleEl.textContent.trim() : 'Web Developer';
-          content.summary = summaryEl ? summaryEl.textContent.trim() : '';
+          // Extract name and title from mobile profile
+          const mobileProfile = document.querySelector('.mobile-profile');
+          if (mobileProfile) {
+               const nameEl = mobileProfile.querySelector('h1');
+               const titleEl = mobileProfile.querySelector('h3');
+               
+               content.name = nameEl ? nameEl.textContent.trim() : 'Bijay Shrestha';
+               content.title = titleEl ? titleEl.textContent.trim() : 'Web Developer';
+               
+               // Extract social media from mobile
+               const socialLinks = mobileProfile.querySelectorAll('.mobile-social a');
+               socialLinks.forEach(link => {
+                    const icon = link.querySelector('i');
+                    if (icon) {
+                         let platform = '';
+                         if (icon.classList.contains('bxl-github')) platform = 'GitHub';
+                         else if (icon.classList.contains('bxl-linkedin')) platform = 'LinkedIn';
+                         else if (icon.classList.contains('bxl-youtube')) platform = 'YouTube';
+                         
+                         if (platform) {
+                              content.social.push({ platform, url: link.href });
+                         }
+                    }
+               });
+          }
           
-          // Extract social media
-          const socialLinks = profilePage.querySelectorAll('.social-media a');
-          socialLinks.forEach(link => {
-               const icon = link.querySelector('i');
-               if (icon) {
-                    let platform = '';
-                    if (icon.classList.contains('bxl-facebook')) platform = 'Facebook';
-                    else if (icon.classList.contains('bxl-twitter')) platform = 'Twitter';
-                    else if (icon.classList.contains('bxl-linkedin')) platform = 'LinkedIn';
-                    else if (icon.classList.contains('bxl-instagram-alt')) platform = 'Instagram';
+          // Extract summary from mobile
+          const mobileSummaryCard = document.querySelector('.mobile-summary-card');
+          if (mobileSummaryCard) {
+               const summaryP = mobileSummaryCard.querySelector('p');
+               content.summary = summaryP ? summaryP.textContent.trim() : '';
+          }
+          
+          // Extract work experience from mobile timeline
+          const mobileTimelineItems = document.querySelectorAll('.mobile-timeline-item');
+          mobileTimelineItems.forEach(item => {
+               const year = item.querySelector('.year');
+               const title = item.querySelector('h2');
+               const desc = item.querySelector('p');
+               
+               if (year && title && desc) {
+                    const yearText = year.textContent.trim();
+                    const titleText = title.textContent.trim();
+                    const descText = desc.innerHTML.trim();
                     
-                    if (platform) {
-                         content.social.push({ platform, url: link.href });
+                    // Check if this is work experience (contains job titles like "Technician", "Developer", "Full Stack")
+                    if (descText.includes('Technician') || descText.includes('Developer') || descText.includes('Full Stack')) {
+                         content.workExperience.push({
+                              period: yearText,
+                              title: titleText,
+                              description: descText.replace(/<br>/g, '\n').replace(/<[^>]*>/g, '')
+                         });
+                    } else {
+                         // This is education
+                         content.education.push({
+                              period: yearText,
+                              degree: titleText,
+                              description: descText.replace(/<br>/g, '\n').replace(/<[^>]*>/g, '')
+                         });
                     }
                }
           });
-     }
-     
-     // Extract Work Experience
-     const workPage = document.querySelector('#turn-1 .page-front');
-     if (workPage) {
-          const workItems = workPage.querySelectorAll('.workeduc-content');
-          workItems.forEach(item => {
-               const year = item.querySelector('.year');
-               const title = item.querySelector('h2');
-               const desc = item.querySelector('p');
+          
+          // Extract services from mobile service cards
+          const mobileServiceCards = document.querySelectorAll('.mobile-service-card');
+          mobileServiceCards.forEach(card => {
+               const header = card.querySelector('.mobile-service-header h3');
+               const body = card.querySelector('.mobile-service-body');
                
-               if (year && title && desc) {
-                    content.workExperience.push({
-                         period: year.textContent.replace(/[📅]/g, '').trim(),
-                         title: title.textContent.trim(),
-                         description: desc.textContent.trim()
-                    });
-               }
-          });
-     }
-     
-     // Extract Education
-     const eduPage = document.querySelector('#turn-1 .page-back');
-     if (eduPage) {
-          const eduItems = eduPage.querySelectorAll('.workeduc-content');
-          eduItems.forEach(item => {
-               const year = item.querySelector('.year');
-               const title = item.querySelector('h2');
-               const desc = item.querySelector('p');
-               
-               if (year && title && desc) {
-                    content.education.push({
-                         period: year.textContent.replace(/[📅]/g, '').trim(),
-                         degree: title.textContent.trim(),
-                         description: desc.textContent.trim()
-                    });
-               }
-          });
-     }
-     
-     // Extract Services
-     const servicesPage = document.querySelector('#turn-2 .page-front');
-     if (servicesPage) {
-          const serviceCards = servicesPage.querySelectorAll('.service-card');
-          serviceCards.forEach(card => {
-               const frontTitle = card.querySelector('.service-card-front h3');
-               const backDetails = card.querySelector('.service-details');
-               
-               if (frontTitle) {
+               if (header) {
                     let serviceData = {
-                         name: frontTitle.textContent.trim(),
+                         name: header.textContent.trim(),
                          details: []
                     };
                     
-                    if (backDetails) {
-                         const listItems = backDetails.querySelectorAll('ul li');
+                    if (body) {
+                         const listItems = body.querySelectorAll('ul li');
                          listItems.forEach(li => {
                               serviceData.details.push(li.textContent.trim());
                          });
                          
-                         const description = backDetails.querySelector('.service-description');
+                         const description = body.querySelector('.service-description');
                          if (description) {
                               serviceData.description = description.textContent.trim();
                          }
@@ -160,15 +166,12 @@ function extractPageContent() {
                     content.services.push(serviceData);
                }
           });
-     }
-     
-     // Extract Skills
-     const skillsPage = document.querySelector('#turn-2 .page-back');
-     if (skillsPage) {
-          const skillSections = skillsPage.querySelectorAll('.skils-content');
-          skillSections.forEach(section => {
-               const category = section.querySelector('h3');
-               const skills = section.querySelectorAll('.content span');
+          
+          // Extract skills from mobile skills groups
+          const mobileSkillsGroups = document.querySelectorAll('.mobile-skills-group');
+          mobileSkillsGroups.forEach(group => {
+               const category = group.querySelector('h3');
+               const skills = group.querySelectorAll('.mobile-skill-chip');
                
                if (category) {
                     const categoryName = category.textContent.trim().toLowerCase();
@@ -188,6 +191,134 @@ function extractPageContent() {
                     }
                }
           });
+          
+     } else {
+          // DESKTOP EXTRACTION (original code)
+          
+          // Extract name and title from profile page
+          const profilePage = document.querySelector('.profile-page');
+          if (profilePage) {
+               const nameEl = profilePage.querySelector('h1');
+               const titleEl = profilePage.querySelector('h3');
+               const summaryEl = profilePage.querySelector('p');
+               
+               content.name = nameEl ? nameEl.textContent.trim() : 'Bijay Shrestha';
+               content.title = titleEl ? titleEl.textContent.trim() : 'Web Developer';
+               content.summary = summaryEl ? summaryEl.textContent.trim() : '';
+               
+               // Extract social media
+               const socialLinks = profilePage.querySelectorAll('.social-media a');
+               socialLinks.forEach(link => {
+                    const icon = link.querySelector('i');
+                    if (icon) {
+                         let platform = '';
+                         if (icon.classList.contains('bxl-github')) platform = 'GitHub';
+                         else if (icon.classList.contains('bxl-linkedin')) platform = 'LinkedIn';
+                         else if (icon.classList.contains('bxl-youtube')) platform = 'YouTube';
+                         
+                         if (platform) {
+                              content.social.push({ platform, url: link.href });
+                         }
+                    }
+               });
+          }
+          
+          // Extract Work Experience
+          const workPage = document.querySelector('#turn-1 .page-front');
+          if (workPage) {
+               const workItems = workPage.querySelectorAll('.workeduc-content');
+               workItems.forEach(item => {
+                    const year = item.querySelector('.year');
+                    const title = item.querySelector('h2');
+                    const desc = item.querySelector('p');
+                    
+                    if (year && title && desc) {
+                         content.workExperience.push({
+                              period: year.textContent.replace(/[📅]/g, '').trim(),
+                              title: title.textContent.trim(),
+                              description: desc.textContent.trim()
+                         });
+                    }
+               });
+          }
+          
+          // Extract Education
+          const eduPage = document.querySelector('#turn-1 .page-back');
+          if (eduPage) {
+               const eduItems = eduPage.querySelectorAll('.workeduc-content');
+               eduItems.forEach(item => {
+                    const year = item.querySelector('.year');
+                    const title = item.querySelector('h2');
+                    const desc = item.querySelector('p');
+                    
+                    if (year && title && desc) {
+                         content.education.push({
+                              period: year.textContent.replace(/[📅]/g, '').trim(),
+                              degree: title.textContent.trim(),
+                              description: desc.textContent.trim()
+                         });
+                    }
+               });
+          }
+          
+          // Extract Services
+          const servicesPage = document.querySelector('#turn-2 .page-front');
+          if (servicesPage) {
+               const serviceCards = servicesPage.querySelectorAll('.service-card');
+               serviceCards.forEach(card => {
+                    const frontTitle = card.querySelector('.service-card-front h3');
+                    const backDetails = card.querySelector('.service-details');
+                    
+                    if (frontTitle) {
+                         let serviceData = {
+                              name: frontTitle.textContent.trim(),
+                              details: []
+                         };
+                         
+                         if (backDetails) {
+                              const listItems = backDetails.querySelectorAll('ul li');
+                              listItems.forEach(li => {
+                                   serviceData.details.push(li.textContent.trim());
+                              });
+                              
+                              const description = backDetails.querySelector('.service-description');
+                              if (description) {
+                                   serviceData.description = description.textContent.trim();
+                              }
+                         }
+                         
+                         content.services.push(serviceData);
+                    }
+               });
+          }
+          
+          // Extract Skills
+          const skillsPage = document.querySelector('#turn-2 .page-back');
+          if (skillsPage) {
+               const skillSections = skillsPage.querySelectorAll('.skils-content');
+               skillSections.forEach(section => {
+                    const category = section.querySelector('h3');
+                    const skills = section.querySelectorAll('.content span');
+                    
+                    if (category) {
+                         const categoryName = category.textContent.trim().toLowerCase();
+                         const skillsList = [];
+                         
+                         skills.forEach(skill => {
+                              const skillText = skill.textContent.trim();
+                              if (skillText) skillsList.push(skillText);
+                         });
+                         
+                         if (categoryName.includes('front')) {
+                              content.skills.frontend = skillsList;
+                         } else if (categoryName.includes('back')) {
+                              content.skills.backend = skillsList;
+                         } else if (categoryName.includes('design') || categoryName.includes('ux')) {
+                              content.skills.design = skillsList;
+                         }
+                    }
+               });
+          }
      }
      
      return content;
@@ -299,15 +430,15 @@ function generatePDFCV() {
                content.workExperience.forEach((exp, index) => {
                     checkNewPage(35);
                     
+                    // Company name on left, date on right (same line)
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(11);
                     doc.text(exp.title, margin + 3, yPos);
-                    yPos += 5;
                     
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(9);
                     doc.setTextColor(...accentColor);
-                    doc.text(exp.period, margin + 3, yPos);
+                    doc.text(exp.period, pageWidth - margin - 3, yPos, { align: 'right' });
                     doc.setTextColor(...secondaryColor);
                     yPos += 6;
                     
@@ -325,17 +456,17 @@ function generatePDFCV() {
                content.education.forEach(edu => {
                     checkNewPage(30);
                     
+                    // Institution name on left, date on right (same line)
                     doc.setFont('helvetica', 'bold');
                     doc.setFontSize(11);
                     doc.text(edu.degree, margin + 3, yPos);
-                    yPos += 5;
                     
                     doc.setFont('helvetica', 'normal');
                     doc.setFontSize(9);
                     doc.setTextColor(...accentColor);
-                    doc.text(edu.period, margin + 3, yPos);
+                    doc.text(edu.period, pageWidth - margin - 3, yPos, { align: 'right' });
                     doc.setTextColor(...secondaryColor);
-                    yPos += 5;
+                    yPos += 6;
                     
                     const lines = doc.splitTextToSize(edu.description, contentWidth - 6);
                     doc.text(lines, margin + 3, yPos);
