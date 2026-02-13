@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Boxicons: served locally, zero network requests -->
+  <script src="js/boxicons-local.js"></script>
+  <title>Bijay Shrestha - Portfolio</title>
+</head>
+
+<body>
+
+  <!-- ============================
+       DESKTOP: Book layout
+       MOBILE:  Tab/card layout
+       ============================ -->
+
+  <!-- MOBILE NAV (visible only on mobile) -->
+  <nav class="mobile-nav">
+    <button class="mobile-nav-btn active" data-tab="profile"><i class='bx bxs-user'></i><span>Profile</span></button>
+    <button class="mobile-nav-btn" data-tab="experience"><i class='bx bx-briefcase'></i><span>Experience</span></button>
+    <button class="mobile-nav-btn" data-tab="expertise"><i class='bx bx-code-alt'></i><span>Skills</span></button>
+    <button class="mobile-nav-btn" data-tab="projects"><i class='bx bx-folder'></i><span>Projects</span></button>
+    <button class="mobile-nav-btn" data-tab="contact"><i class='bx bx-envelope'></i><span>Contact</span></button>
+  </nav>
+
+  <!-- DESKTOP BOOK WRAPPER -->
+  <div class="wrapper">
+    <div class="cover cover-left"></div>
+    <div class="cover cover-right"></div>
+    <div class="book">
+
+      <!-- PROFILE PAGE (left side of book) -->
+      <div class="book-page page-left">
+        <div class="profile-page" data-tab-content="profile">
+          <img src="./assets/photo.jpg" class="profile_img" alt="Bijay Shrestha" />
+          <h1>Bijay Shrestha</h1>
+          <h3>Software Engineer | CS Major | Cyber Security<br>University of North Texas</h3>
+
+          <div class="social-media">
+            <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub"><i class="bx bxl-github"></i></a>
+            <a href="https://www.linkedin.com/in/--/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bx bxl-linkedin"></i></a>
+            <a href="https://youtube.com/" target="_blank" rel="noopener" aria-label="YouTube"><i class="bx bxl-youtube"></i></a>
+          </div>
+
+          <h4>Summary</h4>
+          <p>
+            Computer Science professional with 3–4 years of hands-on experience in software design, development, and testing. Strong background in building scalable applications, debugging complex systems, and implementing efficient solutions.<br><br>
+            • Associate in Science<br>
+            • Bachelor in Computer Science<br>
+            • Time management, problem-solving, strong work ethic<br>
+            • Languages: C++, Java, HTML, CSS, JavaScript, PHP, C#, Go<br>
+            • Databases: MySQL, Oracle<br>
+            • Tools: XCode, Eclipse, VS Code, NetBeans, IntelliJ<br>
+            • OS: Unix, Windows, Linux
+          </p>
+          <div class="btn-box">
+            <a href="#" class="btn download-cv">Download CV</a>
+            <a href="#" class="btn contact-me">Contact Me</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE 1 & 2: Work Experience + Education -->
+      <div class="book-page page-right turn" id="turn-1">
+        <!-- Page 1: Work Experience -->
+        <div class="page-front" data-tab-content="experience">
+          <h1 class="title">Work Experience</h1>
+          <div class="workeduc-box">
+            <div class="workeduc-content">
+              <span class="year"><i class="bx bxs-calendar"></i>2019–2021</span>
+              <h2>Hamro Pasal, Fort Worth, TX</h2>
+              <p>
+                <strong>Computer Technician</strong><br>
+                • Installed and configured software and devices at employee workstations<br>
+                • Supported end users through troubleshooting and training<br>
+                • Maintained check cashing software for new employees<br>
+                • Linked computers to networks, printers, and scanners<br>
+                • Communicated technical information clearly to non-technical staff
+              </p>
+            </div>
+            <div class="workeduc-content">
+              <span class="year"><i class="bx bxs-calendar"></i>2022–2023</span>
+              <h2>Bank of America / Chase &amp; Co</h2>
+              <p>
+                <strong>Full Stack Entry-Level Developer</strong><br>
+                • Developed and maintained core support tools for computer lab environment<br>
+                • Built backend with Java, SQL, and Oracle Database<br>
+                • Managed secure CRUD operations for user/customer accounts<br>
+                • Contributed to full-stack development with HTML/CSS interfaces<br>
+                • Performed testing, debugging, and deployment tasks
+              </p>
+            </div>
+            <div class="workeduc-content">
+              <span class="year"><i class="bx bxs-calendar"></i>2024–Present</span>
+              <h2>Tech Technologies – Irving, TX</h2>
+              <p>
+                <strong>Full Stack Entry-Level Developer</strong><br>
+                • Developed and maintained core support tools for high-usage environment<br>
+                • Built backend functionality with Java, SQL, and Oracle Database<br>
+                • Managed CRUD operations and database accounts<br>
+                • Improved internal web tool usability and accessibility<br>
+                • Collaborated on merging, testing, and deployment
+              </p>
+            </div>
+          </div>
+          <span class="number-page">1</span>
+          <span class="nextprev-btn" data-page="turn-1">
+            <i class="bx bx-chevron-right"></i>
+          </span>
+        </div>
+
+        <!-- Page 2: Education -->
+        <div class="page-back" data-tab-content="education">
+          <h1 class="title">Education</h1>
+          <div class="workeduc-box">
+            <div class="workeduc-content">
+              <span class="year"><i class="bx bxs-calendar"></i>2014–2016</span>
+              <h2>Amar Int'l College</h2>
+              <p>
+                <strong>High School</strong><br>
+                Kathmandu, Nepal<br>
+                Graduated: Dec 2016
+              </p>
+            </div>
+            <div class="workeduc-content">
+              <span class="year"><i class="bx bxs-calendar"></i>2018–2021</span>
+              <h2>Lake, Dallas College</h2>
+              <p>
+                <strong>Associate in Science</strong> — GPA: 3.72<br>
+                Irving, Texas<br>
+                Graduated: May 2022
+              </p>
+            </div>
+            <div class="workeduc-content">
+              <span class="year"><i class="bx bxs-calendar"></i>2021–2023</span>
+              <h2>University of North Texas</h2>
+              <p>
+                <strong>Bachelor in Computer Science</strong> — GPA: 3.7<br>
+                Denton, Texas — Graduated: May 2023<br>
+                <strong>Coursework:</strong> OOP, Algorithms, Data Structures, Software Engineering, OS, Database Systems, Cybersecurity, Automation, Systems Programming
+              </p>
+            </div>
+          </div>
+          <span class="number-page">2</span>
+          <span class="nextprev-btn back" data-page="turn-1">
+            <i class="bx bx-chevron-left"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- PAGE 3 & 4: My Expertise + My Skills -->
+      <div class="book-page page-right turn" id="turn-2">
+        <!-- Page 3: My Expertise (Flip Cards) -->
+        <div class="page-front" data-tab-content="expertise">
+          <h1 class="title">My Expertise</h1>
+          <div class="services-box">
+
+            <!-- IT Support Card -->
+            <div class="service-card">
+              <div class="service-card-inner">
+                <div class="service-card-front">
+                  <div class="service-content">
+                    <img src="assets/it.png" alt="IT Support" class="service-icon">
+                    <h3>IT Support &amp; Technician</h3>
+                    <p>Technical support, hardware/software troubleshooting and system configuration.</p>
+                  </div>
+                  <button class="btn flip-btn">Read More</button>
+                </div>
+                <div class="service-card-back">
+                  <h3>IT Support &amp; Technician</h3>
+                  <div class="service-details">
+                    <p><strong>What I Offer:</strong></p>
+                    <ul>
+                      <li>Technical support for hardware &amp; software</li>
+                      <li>System installation and configuration</li>
+                      <li>Troubleshooting and problem-solving</li>
+                      <li>Network setup and maintenance</li>
+                      <li>Data backup and system security</li>
+                      <li>User support and training</li>
+                    </ul>
+                    <p class="service-description">Dedicated IT Support Technician with strong troubleshooting abilities and a proven record of maintaining reliable system performance.</p>
+                  </div>
+                  <button class="btn back-btn"><i class='bx bx-arrow-back'></i> Back</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Full-Stack Card -->
+            <div class="service-card">
+              <div class="service-card-inner">
+                <div class="service-card-front">
+                  <div class="service-content">
+                    <img src="assets/web.png" alt="Web Development" class="service-icon">
+                    <h3>Full-Stack Web Dev</h3>
+                    <p>Building responsive, secure, and scalable web applications end-to-end.</p>
+                  </div>
+                  <button class="btn flip-btn">Read More</button>
+                </div>
+                <div class="service-card-back">
+                  <h3>Full-Stack Web Dev</h3>
+                  <div class="service-details">
+                    <p><strong>Services Include:</strong></p>
+                    <ul>
+                      <li>Front-end: HTML, CSS, JavaScript</li>
+                      <li>Back-end: Node.js, Python, PHP</li>
+                      <li>Database management (SQL &amp; NoSQL)</li>
+                      <li>RESTful API integration</li>
+                      <li>Cross-browser compatibility</li>
+                      <li>Clean, reusable code</li>
+                    </ul>
+                    <p class="service-description">Skilled in building scalable web applications with clean code and seamless front-end/back-end integration.</p>
+                  </div>
+                  <button class="btn back-btn"><i class='bx bx-arrow-back'></i> Back</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- QA Card -->
+            <div class="service-card">
+              <div class="service-card-inner">
+                <div class="service-card-front">
+                  <div class="service-content">
+                    <img src="assets/security.png" alt="QA" class="service-icon">
+                    <h3>Quality Assurance</h3>
+                    <p>Ensuring system reliability, identifying issues, and delivering high-quality solutions.</p>
+                  </div>
+                  <button class="btn flip-btn">Read More</button>
+                </div>
+                <div class="service-card-back">
+                  <h3>Quality Assurance</h3>
+                  <div class="service-details">
+                    <p><strong>QA &amp; Maintenance:</strong></p>
+                    <ul>
+                      <li>System reliability and uptime</li>
+                      <li>Thorough testing and inspections</li>
+                      <li>Defect identification and resolution</li>
+                      <li>Performance monitoring</li>
+                      <li>Compliance with standards</li>
+                      <li>Minimize downtime</li>
+                    </ul>
+                    <p class="service-description">Detail-oriented QA professional maintaining system integrity and ensuring consistent operational performance.</p>
+                  </div>
+                  <button class="btn back-btn"><i class='bx bx-arrow-back'></i> Back</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Security Card -->
+            <div class="service-card">
+              <div class="service-card-inner">
+                <div class="service-card-front">
+                  <div class="service-content">
+                    <img src="assets/lock.png" alt="Security" class="service-icon">
+                    <h3>Security Handling</h3>
+                    <p>Protecting systems and data, detecting threats, and implementing security measures.</p>
+                  </div>
+                  <button class="btn flip-btn">Read More</button>
+                </div>
+                <div class="service-card-back">
+                  <h3>Security Handling</h3>
+                  <div class="service-details">
+                    <p><strong>Cybersecurity:</strong></p>
+                    <ul>
+                      <li>Protect systems and data</li>
+                      <li>Monitor network activity</li>
+                      <li>Detect security threats</li>
+                      <li>Implement security protocols</li>
+                      <li>Conduct risk assessments</li>
+                      <li>Vulnerability testing</li>
+                    </ul>
+                    <p class="service-description">Proactive Cybersecurity professional with expertise in safeguarding networks, identifying vulnerabilities, and enforcing security policies.</p>
+                  </div>
+                  <button class="btn back-btn"><i class='bx bx-arrow-back'></i> Back</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <span class="number-page">3</span>
+          <span class="nextprev-btn" data-page="turn-2">
+            <i class="bx bx-chevron-right"></i>
+          </span>
+        </div>
+
+        <!-- Page 4: My Skills -->
+        <div class="page-back" data-tab-content="skills">
+          <h1 class="title">My Skills</h1>
+          <div class="skills-box">
+            <div class="skils-content">
+              <h3>Front-end</h3>
+              <div class="content">
+                <span><i class="bx bxl-html5"></i>HTML</span>
+                <span><i class="bx bxl-css3"></i>CSS</span>
+                <span><i class="bx bxl-javascript"></i>JS</span>
+                <span><i class="bx bxl-angular"></i>Angular</span>
+                <span><i class="bx bxl-react"></i>React</span>
+                <span><i class="bx bxl-bootstrap"></i>Bootstrap</span>
+                <span><i class="bx bxl-tailwind-css"></i>Tailwind</span>
+              </div>
+            </div>
+            <div class="skils-content">
+              <h3>Back-end</h3>
+              <div class="content">
+                <span><i class="bx bxl-python"></i>Python</span>
+                <span><i class="bx bxl-php"></i>PHP</span>
+                <span><i class="bx bxl-java"></i>Java</span>
+                <span><i class="bx bxl-nodejs"></i>Node</span>
+                <span><i class="bx bxl-firebase"></i>Firebase</span>
+              </div>
+            </div>
+            <div class="skils-content">
+              <h3>UI/UX Design</h3>
+              <div class="content">
+                <span><i class="bx bxl-figma"></i>Figma</span>
+                <span><i class="bx bxl-adobe"></i>Adobe</span>
+              </div>
+            </div>
+          </div>
+          <span class="number-page">4</span>
+          <span class="nextprev-btn back" data-page="turn-2">
+            <i class="bx bx-chevron-left"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- PAGE 5 & 6: Projects + Contact -->
+      <div class="book-page page-right turn" id="turn-3">
+        <!-- Page 5: Latest Project -->
+        <div class="page-front" data-tab-content="projects">
+          <h1 class="title">Latest Project</h1>
+          <div class="portfolio-box">
+            <div class="img-box">
+              <img src="./assets/portfolio.jpg" alt="Wedding RSVPs Project" />
+            </div>
+            <div class="info-box">
+              <div class="info-title">
+                <h3>Wedding RSVPs</h3>
+                <p>
+                  Full-stack Wedding RSVP application with a responsive front-end for guest submissions and a secure back-end for data storage, RSVP management, and automated notifications. Smooth UX, data integrity, and system reliability.
+                </p>
+              </div>
+              <a href="https://wed-rsvps.vercel.app/" target="_blank" rel="noopener">
+                Live Preview <i class="bx bx-link-external"></i>
+              </a>
+            </div>
+          </div>
+          <span class="number-page">5</span>
+          <span class="nextprev-btn" data-page="turn-3">
+            <i class="bx bx-chevron-right"></i>
+          </span>
+        </div>
+
+        <!-- Page 6: Contact -->
+        <div class="page-back" data-tab-content="contact">
+          <h1 class="title">Contact Me</h1>
+          <div class="contact-box">
+            <form id="contactForm" novalidate>
+              <input type="text" class="field" id="fullName" placeholder="Full Name" required autocomplete="name">
+              <input type="email" class="field" id="email" placeholder="Email Address" required autocomplete="email">
+              <textarea id="message" cols="30" rows="6" class="field" placeholder="Your Message" required></textarea>
+              <input type="submit" class="btn" value="Send Message">
+            </form>
+            <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+          </div>
+          <span class="number-page">6</span>
+          <span class="nextprev-btn back" data-page="turn-3">
+            <i class='bx bx-chevron-left'></i>
+          </span>
+          <a href="#" class="back-profile" aria-label="Back to profile">
+            <p>profile</p>
+            <i class='bx bxs-user'></i>
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /.book -->
+  </div><!-- /.wrapper -->
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="alert" aria-live="assertive">
+    <i class='bx bx-check-circle'></i>
+    <span id="toastMessage"></span>
+  </div>
+
+  <!-- JavaScript — loaded in dependency order -->
+  <script src="js/notifications.js"></script>
+  <script src="js/theme-toggle.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/page-navigation.js"></script>
+  <script src="js/service-cards.js"></script>
+  <script src="js/smooth-scroll.js"></script>
+  <script src="js/cv-download.js"></script>
+  <script src="js/contact-form.js"></script>
+  <script src="js/mobile-tabs.js"></script>
+</body>
+</html>
