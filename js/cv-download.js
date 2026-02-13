@@ -8,6 +8,7 @@ document.addEventListener('click', async function(e) {
      if (!downloadCVBtn) return;
      
      e.preventDefault();
+     e.stopPropagation();
      
      // Show loading state
      const originalText = downloadCVBtn.textContent;
@@ -18,8 +19,13 @@ document.addEventListener('click', async function(e) {
      try {
           // Load jsPDF library if not already loaded
           if (typeof window.jspdf === 'undefined') {
+               downloadCVBtn.textContent = 'Loading library...';
                await loadJsPDF();
+               // Small delay to ensure library is ready
+               await new Promise(resolve => setTimeout(resolve, 100));
           }
+          
+          downloadCVBtn.textContent = 'Creating PDF...';
           
           // Generate and download PDF
           generatePDFCV();
@@ -32,6 +38,8 @@ document.addEventListener('click', async function(e) {
           console.error('Error generating PDF:', error);
           if (typeof showToast === 'function') {
                showToast('Failed to generate PDF. Please try again.', 'error');
+          } else {
+               alert('Failed to generate PDF. Please try again.');
           }
      } finally {
           // Reset button state
@@ -573,7 +581,59 @@ function generatePDFCV() {
           doc.text(`Page ${i} of ${pageCount}`, pageWidth - margin, footerY, { align: 'right' });
      }
      
-     // Save the PDF
+     // Save the PDF with better Chrome mobile compatibility
      const fileName = content.name.replace(/\s+/g, '_') + '_CV.pdf';
-     doc.save(fileName);
+     
+     // Detect browser for better compatibility
+     const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+     const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+     
+     try {
+          if (isChrome || isIOS) {
+               // Method 1: Blob with anchor tag (best for Chrome and iOS)
+               const blob = doc.output('blob');
+               const url = URL.createObjectURL(blob);
+               const link = document.createElement('a');
+               link.href = url;
+               link.download = fileName;
+               link.target = '_blank';
+               link.rel = 'noopener noreferrer';
+               
+               // Append to body, click, and remove
+               document.body.appendChild(link);
+               link.click();
+               
+               // Cleanup after delay
+               setTimeout(() => {
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+               }, 100);
+          } else {
+               // Method 2: Direct save for other browsers
+               doc.save(fileName);
+          }
+     } catch (error) {
+          console.error('Primary download method failed:', error);
+          try {
+               // Fallback: Try jsPDF's built-in save
+               doc.save(fileName);
+          } catch (fallbackError) {
+               console.error('Fallback download also failed:', fallbackError);
+               // Final fallback: Open in new window
+               const pdfData = doc.output('dataurlstring');
+               const newWindow = window.open();
+               if (newWindow) {
+                    newWindow.document.write(`
+                         <html>
+                         <head><title>${fileName}</title></head>
+                         <body style="margin:0">
+                              <iframe src="${pdfData}" style="width:100%;height:100vh;border:none"></iframe>
+                         </body>
+                         </html>
+                    `);
+               } else {
+                    alert('Please allow pop-ups to download the CV, or try a different browser.');
+               }
+          }
+     }
 }
